@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:49:30 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/11 01:07:47 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:03:09 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,36 @@ static void	create_redirect_files(t_com *cmd)
 	tmp = cmd->red_out;
 	while (tmp)
 	{
-		open(tmp->target, O_CREAT | O_RDONLY, 0777);
+		open(tmp->target, O_CREAT, 0777);
 		tmp = tmp->next;
 	}
+}
+
+static int	validate_redirects(t_com *cmd)
+{
+	t_reds	*tmp;
+	struct stat	sb;
+	t_config	*data;
+
+	data = get_data();
+	tmp = cmd->red_out;
+	while (tmp)
+	{
+		if (stat(tmp->target, &sb) == -1)
+		{
+			perror(tmp->target);
+			data->exit_code = 1;
+			return (1);
+		}
+		else if (access(tmp->target, W_OK) != 0)
+		{
+			perror(tmp->target);
+			data->exit_code = 1;
+			return (1);
+		}
+		tmp = tmp->next;
+	}
+	return (0);
 }
 
 static int	exec_loop(t_com *cmd, t_config *data, int original_fds[2])
@@ -37,6 +64,8 @@ static int	exec_loop(t_com *cmd, t_config *data, int original_fds[2])
 	create_redirect_files(cmd);
 	if (!cmd->receives_from_pipe && !cmd->sends_to_pipe)
 	{
+		if (validate_redirects(cmd))
+			return (0);
 		exec_one_cmd(cmd, data, original_fds);
 		return (0);
 	}

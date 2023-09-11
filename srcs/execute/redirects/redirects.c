@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirects.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 21:48:16 by viferrei          #+#    #+#             */
-/*   Updated: 2023/09/11 00:15:02 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:25:35 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	handle_redirects(t_com *cmd, int original_fds[2], t_config *data)
 {
 	if (handle_input(cmd, original_fds, data))
 		return (1);
-	if (handle_output(cmd->red_out, original_fds))
-		return (1);
+	handle_output(cmd->red_out, original_fds);
 	return (0);
 }
