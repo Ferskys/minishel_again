@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 11:13:28 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/12 19:38:17 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:53:41 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	expand_tilde(t_config *data)
 
 static void	remove_end_spaces(t_config *data)
 {
-	char		*str;
+	char	*str;
 
 	str = ft_strtrim(data->prompt, " ");
 	if (str)
@@ -62,33 +62,57 @@ void	print_t_tokens(t_tokens *tokens)
 	}
 }
 
-void deleteNodesWithNullOrEmptyValue(t_tokens **head)
+void	deleteNodesWithNullOrEmptyValue(t_tokens **head)
 {
-    t_tokens *current = *head;
-    
-    while (current != NULL)
-    {
-        t_tokens *temp = current;
-        current = current->next;
-        
-        // Check if value is NULL or empty string
-        if (temp->value == NULL || temp->value[0] == '\0')
-        {
-            // Adjust the prev and next pointers
-            if (temp->prev != NULL)
-                temp->prev->next = temp->next;
-            if (temp->next != NULL)
-                temp->next->prev = temp->prev;
-            
-            // If it's the head, update the head pointer
-            if (temp == *head)
-                *head = current;
-            
-            // Free the memory for the node
-            free(temp->value);
-            free(temp);
-        }
-    }
+	t_tokens	*current;
+	t_tokens	*temp;
+
+	current = *head;
+	while (current != NULL)
+	{
+		temp = current;
+		current = current->next;
+		// Check if value is NULL or empty string
+		if (temp->value == NULL || temp->value[0] == '\0')
+		{
+			// Adjust the prev and next pointers
+			if (temp->prev != NULL)
+				temp->prev->next = temp->next;
+			if (temp->next != NULL)
+				temp->next->prev = temp->prev;
+			// If it's the head, update the head pointer
+			if (temp == *head)
+				*head = current;
+			// Free the memory for the node
+			free(temp->value);
+			free(temp);
+		}
+	}
+}
+
+void	check_heredoc(t_config *data)
+{
+	t_tokens	*current;
+	char		*heredoc_file;
+
+	current = data->tokens;
+	while (current != NULL)
+	{
+		if (current->type == REDTOKEN && strcmp(current->value, "<<") == 0)
+		{
+			free(current->value);
+			current->value = ft_strdup("<");
+			heredoc_file = redirect_heredoc(current->next->value);
+			if (heredoc_file)
+			{
+				free(current->next->value);
+				current->next->value = heredoc_file;
+			}
+			else
+				data->state = PROMPT;
+		}
+		current = current->next;
+	}
 }
 
 void	parse(void)
@@ -111,6 +135,9 @@ void	parse(void)
 		remove_duplicate_fd(&data->tokens);
 		remove_quotes_from_tokens(data->tokens);
 		categorize_tokens(data->tokens);
+		ignore_signals();
+		check_heredoc(data);
+		set_signal();
 	}
 	else
 		data->state = PROMPT;

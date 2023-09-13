@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   one_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 21:40:45 by viferrei          #+#    #+#             */
-/*   Updated: 2023/09/11 01:12:55 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:44:20 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	exec_builtin(t_com *cmd, t_config *data, int original_fds[2])
 {
 	if (!cmd->sends_to_pipe && !cmd->receives_from_pipe)
 	{
-		if (handle_redirects(cmd, original_fds, data))
+		if (handle_redirects(cmd, original_fds))
 		{
 			data->issue_exit = -1;
 			return (restore_original_fds(original_fds));

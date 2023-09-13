@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   com.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 21:15:32 by coder             #+#    #+#             */
-/*   Updated: 2023/09/11 01:34:50 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:23:12 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	get_exec_error(char *path, t_config *data)
 	{
 		data->exit_code = 126;
 		ft_putstr_fd("Is a directory\n", STDERR_FILENO);
+		return (data->exit_code);
 	}
 	if (!path)
 		data->exit_code = 1;
@@ -30,8 +31,9 @@ int	get_exec_error(char *path, t_config *data)
 		data->exit_code = 127;
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		return (data->exit_code);
 	}
-	return (data->exit_code);
+	return (0);
 }
 
 int	exec_fork_builtin(t_com *cmd, t_config *data, int original_fds[2])
@@ -43,7 +45,7 @@ int	exec_fork_builtin(t_com *cmd, t_config *data, int original_fds[2])
 	{
 		sig_defaults();
 		pipe_handle(data, cmd);
-		if (handle_redirects(cmd, original_fds, data))
+		if (handle_redirects(cmd, original_fds))
 		{
 			data->issue_exit = -1;
 			return (restore_original_fds(original_fds));
@@ -64,7 +66,7 @@ int	exec_com(t_com *cmd, t_config *data, int original_fds[2])
 		if (!get_exec_error(cmd->command, data))
 		{
 			sig_defaults();
-			if (handle_redirects(cmd, original_fds, data))
+			if (handle_redirects(cmd, original_fds))
 			{
 				data->issue_exit = -1;
 				return (restore_original_fds(original_fds));
@@ -72,7 +74,10 @@ int	exec_com(t_com *cmd, t_config *data, int original_fds[2])
 			execve(cmd->command, cmd->args, cmd->envp);
 		}
 		else
+		{
+			restore_original_fds(original_fds);	
 			data->issue_exit = -1;
+		}
 		return (data->exit_code);
 	}
 	return (data->exit_code);
@@ -89,7 +94,7 @@ int	exec_com_multi(t_com *cmd, t_config *data, int original_fds[2])
 		{
 			sig_defaults();
 			pipe_handle(data, cmd);
-			if (handle_redirects(cmd, original_fds, data))
+			if (handle_redirects(cmd, original_fds))
 			{
 				data->issue_exit = -1;
 				return (restore_original_fds(original_fds));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_prompt.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/10 12:14:57 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/10 14:17:49 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/13 18:28:26 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ char	*print_prompt(void)
 	pwd = get_modified_pwd();
 	user = getenv("USER");
 	*result = '\0';
-	ft_strlcat(result, "\033[1;31m", ft_strlen("\033[1;31m") + 1);
+	ft_strlcat(result, "\001\033[1;31m", ft_strlen("\001\033[1;31m") + 1);
 	ft_strlcat(result, user, ft_strlen(result) + ft_strlen(user) + 1);
-	ft_strlcat(result, "\033[0m", ft_strlen(result) + ft_strlen("\033[0m") + 1);
+	ft_strlcat(result, "\001\033[0m", ft_strlen(result) + ft_strlen("\001\033[0m") + 1);
 	ft_strlcat(result, ":", ft_strlen(result) + 2);
-	ft_strlcat(result, "\033[1;34m", ft_strlen(result) + \
-		ft_strlen("\033[1;34m") + 1);
+	ft_strlcat(result, "\001\033[1;34m", ft_strlen(result) + \
+		ft_strlen("\001\033[1;34m") + 1);
 	ft_strlcat(result, pwd, ft_strlen(result) + ft_strlen(pwd) + 1);
-	ft_strlcat(result, "\033[0m", ft_strlen(result) + ft_strlen("\033[0m") + 1);
+	ft_strlcat(result, "\001\033[0m", ft_strlen(result) + ft_strlen("\001\033[0m") + 1);
 	ft_strlcat(result, "$ ", ft_strlen(result) + 3);
 	free(pwd);
 	return (ft_strdup(result));

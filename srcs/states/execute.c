@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:49:30 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/11 19:03:09 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:41:32 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	create_redirect_files(t_com *cmd)
 
 static int	validate_redirects(t_com *cmd)
 {
-	t_reds	*tmp;
+	t_reds		*tmp;
 	struct stat	sb;
 	t_config	*data;
 
@@ -58,7 +58,7 @@ static int	exec_loop(t_com *cmd, t_config *data, int original_fds[2])
 		return (0);
 	if (cmd->block_exec)
 	{
-		write (2, cmd->error_to_print, ft_strlen(cmd->error_to_print));
+		write(2, cmd->error_to_print, ft_strlen(cmd->error_to_print));
 		return (0);
 	}
 	create_redirect_files(cmd);
@@ -73,30 +73,6 @@ static int	exec_loop(t_com *cmd, t_config *data, int original_fds[2])
 		return (exec_multi(cmd, data, original_fds));
 	return (1);
 }
-
-// void	print_t_com(t_com *cmd)
-// {
-// 	printf("command: %s\n", cmd->command);
-// 	printf("is_builtin: %d\n", cmd->is_builtin);
-// 	while(*cmd->args)
-// 	{
-// 		printf("args: %s\n", *cmd->args);
-// 		cmd->args++;
-// 	}
-// 	while(cmd->red_in)
-// 	{
-// 		printf("red_in: %s\n", cmd->red_in->target);
-// 		cmd->red_in = cmd->red_in->next;
-// 	}
-// 	while(cmd->red_out)
-// 	{
-// 		printf("red_out: %s\n", cmd->red_out->target);
-// 		cmd->red_out = cmd->red_out->next;
-// 	}
-// 	printf("receives_from_pipe: %d\n", cmd->receives_from_pipe);
-// 	printf("sends_to_pipe: %d\n", cmd->sends_to_pipe);
-// 	printf("error_to_print: %s\n", cmd->error_to_print);
-// }
 
 static void	execute_command_loop(t_config *data, int *original_fds)
 {
@@ -136,8 +112,8 @@ void	execute(void)
 
 	original_fds[0] = NO_REDIRECT;
 	original_fds[1] = NO_REDIRECT;
-	ignore_signals();
 	data = get_data();
+	ignore_signals();
 	execute_command_loop(data, original_fds);
 	execute_post_loop(data, original_fds);
 }

@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:40:31 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/12 16:35:54 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 16:42:26 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,9 +180,9 @@ int			has_pipe(t_tokens *tokens);
 int			exec_multi(t_com *cmd, t_config *data, int original_fds[2]);
 int			exec_fork_builtin(t_com *cmd, t_config *data, int original_fds[2]);
 int			exec_com(t_com *cmd, t_config *data, int original_fds[2]);
-int			handle_redirects(t_com *cmd, int original_fds[2], t_config *data);
-int			redirect_heredoc(int original_fds[2], t_com *cmd, t_config *data);
-char		*heredoc(char *target, t_config *data);
+int			handle_redirects(t_com *cmd, int original_fds[2]);
+char		*redirect_heredoc(char *target);
+char		*heredoc(char *target);
 void		*destroy_exec_info(t_com *self);
 int			exec_com_multi(t_com *cmd, t_config *data, int original_fds[2]);
 int			builtin_echo(char **args);

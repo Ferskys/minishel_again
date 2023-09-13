@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 21:48:16 by viferrei          #+#    #+#             */
-/*   Updated: 2023/09/11 18:25:35 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:17:10 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,34 +31,19 @@ int	redirect_input(t_reds *in)
 	return (0);
 }
 
-int	redirect_heredoc(int original_fds[2], t_com *cmd, t_config *data)
+char	*redirect_heredoc(char *target)
 {
 	char	*heredoc_file;
 	int		fd;
 
-	restore_original_fds(original_fds);
-	heredoc_file = heredoc(cmd->red_in->target, data);
+	heredoc_file = heredoc(target);
 	if (!heredoc_file)
-		return (1);
+		return (NULL);
 	fd = open(heredoc_file, O_RDONLY, FD_CLOEXEC);
-	dup2(fd, STDIN_FILENO);
-	close(fd);
-	unlink(heredoc_file);
-	free(heredoc_file);
-	dup2(fd, STDOUT_FILENO);
-	if (!cmd->command)
-	{
-		destroy_token_list(data);
-		clear_env(data);
-		rl_clear_history();
-		close_inherited_fds();
-		destroy_exec_info(cmd);
-		exit(0);
-	}
-	return (0);
+	return (heredoc_file);
 }
 
-int	handle_input(t_com *cmd, int original_fds[2], t_config *data)
+int	handle_input(t_com *cmd, int original_fds[2])
 {
 	t_reds	*in;
 
@@ -72,17 +57,14 @@ int	handle_input(t_com *cmd, int original_fds[2], t_config *data)
 		if (in->type == INFILE)
 			if (redirect_input(in))
 				return (1);
-		if (in->type == HEREDOC)
-			if (redirect_heredoc(original_fds, cmd, data))
-				return (1);
 		in = in->next;
 	}
 	return (0);
 }
 
-int	handle_redirects(t_com *cmd, int original_fds[2], t_config *data)
+int	handle_redirects(t_com *cmd, int original_fds[2])
 {
-	if (handle_input(cmd, original_fds, data))
+	if (handle_input(cmd, original_fds))
 		return (1);
 	handle_output(cmd->red_out, original_fds);
 	return (0);

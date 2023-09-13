@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:06:48 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/12 19:40:20 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 17:53:20 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	close_inherited_fds(void)
 {
 	int	fd;
 
-	fd = 0;
+	fd = 3;
 	while (fd < 1024)
 	{
 		close(fd);
