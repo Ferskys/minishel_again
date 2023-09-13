@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 11:13:28 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/10 23:22:50 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/12 19:38:17 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,35 @@ void	print_t_tokens(t_tokens *tokens)
 	}
 }
 
+void deleteNodesWithNullOrEmptyValue(t_tokens **head)
+{
+    t_tokens *current = *head;
+    
+    while (current != NULL)
+    {
+        t_tokens *temp = current;
+        current = current->next;
+        
+        // Check if value is NULL or empty string
+        if (temp->value == NULL || temp->value[0] == '\0')
+        {
+            // Adjust the prev and next pointers
+            if (temp->prev != NULL)
+                temp->prev->next = temp->next;
+            if (temp->next != NULL)
+                temp->next->prev = temp->prev;
+            
+            // If it's the head, update the head pointer
+            if (temp == *head)
+                *head = current;
+            
+            // Free the memory for the node
+            free(temp->value);
+            free(temp);
+        }
+    }
+}
+
 void	parse(void)
 {
 	t_config	*data;
@@ -74,15 +103,16 @@ void	parse(void)
 	expand_exit_code(data);
 	expand_variables(data);
 	expand_tilde(data);
-	categorize_tokens(data->tokens);
-	// print_t_tokens(data->tokens);
-	checkAndSwapNodes(&data->tokens);
-	remove_duplicate_fd(&data->tokens);
-	// remove_duplicate_outfile(&data->tokens);
-	// print_t_tokens(data->tokens);
-	remove_quotes_from_tokens(data->tokens);
-	categorize_tokens(data->tokens);
-	if (data->tokens == NULL)
+	deleteNodesWithNullOrEmptyValue(&data->tokens);
+	if (data->tokens && data->tokens->value)
+	{
+		categorize_tokens(data->tokens);
+		checkAndSwapNodes(&data->tokens);
+		remove_duplicate_fd(&data->tokens);
+		remove_quotes_from_tokens(data->tokens);
+		categorize_tokens(data->tokens);
+	}
+	else
 		data->state = PROMPT;
 	clear_data(data);
 	if (data->state == PARSE)

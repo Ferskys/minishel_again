@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 01:16:27 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/10 22:35:31 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:34:33 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	token_is_fd(t_tokens *temp)
 {
 	if (temp->prev && temp->prev->type == REDTOKEN)
 		return (1);
-	else if (temp->prev && temp->prev->type == FDTOKEN && !ft_strncmp(temp->value, "./", 2))
+	else if (temp->prev && temp->prev->type == FDTOKEN \
+		&& !ft_strncmp(temp->value, "./", 2))
 		return (1);
 	return (0);
 }

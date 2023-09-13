@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   data.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:06:48 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/11 01:50:12 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/12 19:40:20 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ void	clear_data(t_config	*data)
 {
 	data->tok_index = 0;
 	if (data->state == PROMPT)
+	{
+		if (data->parse)
+			free(data->parse);
+		if (data->raw_tokens)
+			free_char_array(data->raw_tokens);
 		free_tokens(data->tokens);
+	}
 	if (data->state == PARSE)
 	{
 		if (data->set_buffer_to_null)
