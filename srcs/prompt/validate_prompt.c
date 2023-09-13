@@ -53,8 +53,7 @@ void	validate_prompt(t_config *data)
 	{
 		if (check_for_open_quotes(data->prompt))
 		{
-			ft_putstr_fd("minishell: syntax error: unexpected end of file\n",
-				2);
+			ft_putstr_fd("minishell: syntax error: unexpected end of file\n", 2);
 			data->exit_code = 2;
 		}
 		else if (!is_only_space(data->prompt))

@@ -12,7 +12,7 @@
 
 #include "../includes/minishell.h"
 
-static	void	is_valid(int argc, char **argv)
+static	void	validate_args(int argc, char **argv)
 {
 	(void)argv;
 	if (argc != 1)
@@ -23,7 +23,7 @@ int	main(int argc, char **argv)
 {
 	t_config	*data;	
 
-	is_valid(argc, argv);
+	validate_args(argc, argv);
 	data = get_data();
 	data->state = INIT;
 	while (1)
@@ -34,6 +34,8 @@ int	main(int argc, char **argv)
 			prompt();
 		if (data->state == PARSE)
 			parse();
+		// if (data->state == TOKENIZER)
+			// tokenizer();
 		if (data->state == EXECUTE)
 			execute();
 		if (data->state == EXIT)

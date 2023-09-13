@@ -36,26 +36,6 @@ void	set_signal(void)
 	signal(SIGTSTP, SIG_IGN);
 }
 
-void	handler_eof(int sig)
-{
-	t_config	*config;
-
-	(void)sig;
-	config = get_data();
-	if (config->state == PROMPT)
-	{
-		write(STDOUT_FILENO, "exit\n", 5);
-		config->state = EXIT;
-	}
-	else
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
 void	sig_defaults(void)
 {
 	signal(SIGINT, SIG_DFL);
