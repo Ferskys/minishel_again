@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:40:31 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/13 16:42:26 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:39:29 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ void		categorize_tokens(t_tokens *tokens);
 void		remove_quotes_from_tokens(t_tokens *tokens);
 void		iterate_through_quotes(t_split_shell *this);
 int			check_for_non_print(char *value);
-void		checkAndSwapNodes(t_tokens **head_ref);
+void		check_and_wap_nodes(t_tokens **head_ref);
 void		remove_duplicate_fd(t_tokens **head);
 void		remove_duplicate_outfile(t_tokens **head);
 

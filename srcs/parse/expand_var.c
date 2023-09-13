@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_var.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/19 00:55:09 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/10 14:31:43 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:37:18 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ char	*replace_variables(char *input_string, t_env *env_data)
 			var_name = find_var_name(input_string + i + 1);
 			var_value = get_env_value(env_data, var_name);
 			if (var_value)
-				ft_strlcat(placeholder, var_value, j + ft_strlen(var_value) + 1);
+				ft_strlcat(placeholder, var_value, j + \
+					ft_strlen(var_value) + 1);
 			i += ft_strlen(var_name) + 1;
 			j += ft_strlen(var_value);
 			free(var_name);

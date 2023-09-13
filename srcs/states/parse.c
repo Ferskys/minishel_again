@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 11:13:28 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/13 16:53:41 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:39:29 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_t_tokens(t_tokens *tokens)
 	}
 }
 
-void	deleteNodesWithNullOrEmptyValue(t_tokens **head)
+static void	delete_nodes_with_null_or_empty_value(t_tokens **head)
 {
 	t_tokens	*current;
 	t_tokens	*temp;
@@ -72,18 +72,14 @@ void	deleteNodesWithNullOrEmptyValue(t_tokens **head)
 	{
 		temp = current;
 		current = current->next;
-		// Check if value is NULL or empty string
 		if (temp->value == NULL || temp->value[0] == '\0')
 		{
-			// Adjust the prev and next pointers
 			if (temp->prev != NULL)
 				temp->prev->next = temp->next;
 			if (temp->next != NULL)
 				temp->next->prev = temp->prev;
-			// If it's the head, update the head pointer
 			if (temp == *head)
 				*head = current;
-			// Free the memory for the node
 			free(temp->value);
 			free(temp);
 		}
@@ -127,11 +123,11 @@ void	parse(void)
 	expand_exit_code(data);
 	expand_variables(data);
 	expand_tilde(data);
-	deleteNodesWithNullOrEmptyValue(&data->tokens);
+	delete_nodes_with_null_or_empty_value(&data->tokens);
 	if (data->tokens && data->tokens->value)
 	{
 		categorize_tokens(data->tokens);
-		checkAndSwapNodes(&data->tokens);
+		check_and_wap_nodes(&data->tokens);
 		remove_duplicate_fd(&data->tokens);
 		remove_quotes_from_tokens(data->tokens);
 		categorize_tokens(data->tokens);

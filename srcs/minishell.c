@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 09:58:56 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/08/25 20:05:50 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/13 20:31:09 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	main(int argc, char **argv)
 			prompt();
 		if (data->state == PARSE)
 			parse();
-		// if (data->state == TOKENIZER)
-			// tokenizer();
 		if (data->state == EXECUTE)
 			execute();
 		if (data->state == EXIT)
