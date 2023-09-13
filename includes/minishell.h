@@ -40,6 +40,7 @@ typedef enum e_state
 	INIT,
 	PROMPT,
 	PARSE,
+	TOKENIZER,
 	EXECUTE,
 	EXIT,
 }	t_state;

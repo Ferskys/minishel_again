@@ -22,7 +22,7 @@ static char	*read_line(t_config *data)
 	free(tmp);
 	if (!str)
 	{
-		write(STDOUT_FILENO, "exit\n", 5);
+		write(STDOUT_FILENO, "\nexit\n", 6);
 		data->state = EXIT;
 		return (NULL);
 	}

@@ -49,7 +49,7 @@ t_env	*create_env_list(char **env)
 	envp = env;
 	while (*envp)
 	{
-		key = strdup(*envp);
+		key = ft_strdup(*envp);
 		value = ft_strchr(key, '=');
 		if (value)
 		{
