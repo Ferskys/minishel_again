@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/26 07:47:21 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/14 10:51:22 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 20:49:24 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,35 @@ void	remove_duplicate_outfile(t_tokens **head)
 	}
 }
 
-void	swap_tokens(t_tokens **head_ref)
+void	swap_nodes(t_swap_nodes *nodes, t_tokens **head_ref)
 {
-	t_tokens	*temp;
 	t_tokens	*node5;
 	t_tokens	*node6;
 	t_tokens	*node3;
 	t_tokens	*node_after_3;
+
+	node5 = nodes->node5;
+	node6 = nodes->node6;
+	node3 = nodes->node3;
+	node_after_3 = nodes->node_after_3;
+	if (node5->prev != NULL)
+		node5->prev->next = node3;
+	else
+		*head_ref = node3;
+	node3->prev = node5->prev;
+	node3->next = node5;
+	node5->prev = node3;
+	node5->next = node6;
+	node6->prev = node5;
+	node6->next = node_after_3;
+	if (node_after_3 != NULL)
+		node_after_3->prev = node6;
+}
+
+void	swap_tokens(t_tokens **head_ref)
+{
+	t_tokens		*temp;
+	t_swap_nodes	nodes;
 
 	temp = *head_ref;
 	while (temp != NULL && temp->next != NULL && temp->next->next != NULL)
@@ -85,25 +107,16 @@ void	swap_tokens(t_tokens **head_ref)
 		if (temp->type == 5 && temp->next->type == 6
 			&& temp->next->next->type == 3)
 		{
-			node5 = temp;
-			node6 = temp->next;
-			node3 = temp->next->next;
-			node_after_3 = node3->next;
-			if (node5->prev != NULL)
-				node5->prev->next = node3;
-			else
-				*head_ref = node3;
-			node3->prev = node5->prev;
-			node3->next = node5;
-			node5->prev = node3;
-			node5->next = node6;
-			node6->prev = node5;
-			node6->next = node_after_3;
-			if (node_after_3 != NULL)
-				node_after_3->prev = node6;
-			temp = node5;
+			nodes.node5 = temp;
+			nodes.node6 = temp->next;
+			nodes.node3 = temp->next->next;
+			nodes.node_after_3 = nodes.node3->next;
+			swap_nodes(&nodes, head_ref);
+			temp = nodes.node5;
 		}
 		else
+		{
 			temp = temp->next;
+		}
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:49:30 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/14 10:43:43 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:56:27 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	execute_post_loop(t_config *data, int *original_fds)
 		data->exit_code = data->exit_code >> 8;
 	set_signal();
 	clear_data(data);
-	(void)original_fds;
+	restore_original_fds(original_fds);
 	if (data->issue_exit)
 		data->state = EXIT;
 	if (data->state == EXECUTE)

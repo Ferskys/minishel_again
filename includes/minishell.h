@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 10:40:31 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/14 11:15:25 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 20:39:21 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,14 @@ typedef struct s_com
 	int				sends_to_pipe;
 	char			*error_to_print;
 }					t_com;
+
+typedef struct s_swap_nodes
+{
+	t_tokens		*node5;
+	t_tokens		*node6;
+	t_tokens		*node3;
+	t_tokens		*node_after_3;
+}					t_swap_nodes;
 
 // INIT
 
