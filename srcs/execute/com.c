@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 21:15:32 by coder             #+#    #+#             */
-/*   Updated: 2023/09/13 18:23:12 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:28:03 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int	exec_com_multi(t_com *cmd, t_config *data, int original_fds[2])
 			execve(cmd->command, cmd->args, cmd->envp);
 		}
 		else
+		{
 			data->issue_exit = -1;
+			restore_original_fds(original_fds);
+		}
 		return (data->exit_code);
 	}
 	close(data->pipe_in[0]);

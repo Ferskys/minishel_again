@@ -6,7 +6,7 @@
 #    By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/05 09:18:52 by aqueiroz          #+#    #+#              #
-#    Updated: 2023/09/13 18:06:54 by aqueiroz         ###   ########.fr        #
+#    Updated: 2023/09/14 18:50:52 by aqueiroz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,7 +125,7 @@ $(NAME): LIBFT $(OBJS)
 	$(info $(purple)Project compiled. Run './$(NAME)' to start.$(reset))
 
 valgrind:
-	make
+	make re
 	valgrind --trace-children=yes --track-fds=yes --track-origins=yes \
 	--suppressions=./readline.supp --leak-check=full \
 	--show-leak-kinds=all --trace-children-skip='*/bin/*,*/sbin/*' --quiet ./minishell

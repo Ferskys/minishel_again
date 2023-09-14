@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 00:53:46 by coder             #+#    #+#             */
-/*   Updated: 2023/09/13 17:51:17 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:51:18 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	*tok_get_path(char *value, t_env *env_head)
 	char		*path_list;
 
 	if (!ft_strncmp(value, ".", 1))
-		return (value);
+		return (ft_strdup(value));
 	if (value[0] == '\0')
 		return (value);
 	path_list = get_env_value(env_head, "PATH");

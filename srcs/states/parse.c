@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/06 11:13:28 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/13 16:53:41 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:04:12 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	check_heredoc(t_config *data)
 		{
 			free(current->value);
 			current->value = ft_strdup("<");
-			heredoc_file = redirect_heredoc(current->next->value);
+			heredoc_file = heredoc(current->next->value);
 			if (heredoc_file)
 			{
 				free(current->next->value);

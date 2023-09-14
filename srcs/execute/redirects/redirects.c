@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/18 21:48:16 by viferrei          #+#    #+#             */
-/*   Updated: 2023/09/13 17:17:10 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 19:03:09 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,6 @@ int	redirect_input(t_reds *in)
 		close(fd);
 	}
 	return (0);
-}
-
-char	*redirect_heredoc(char *target)
-{
-	char	*heredoc_file;
-	int		fd;
-
-	heredoc_file = heredoc(target);
-	if (!heredoc_file)
-		return (NULL);
-	fd = open(heredoc_file, O_RDONLY, FD_CLOEXEC);
-	return (heredoc_file);
 }
 
 int	handle_input(t_com *cmd, int original_fds[2])
