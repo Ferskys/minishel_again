@@ -6,7 +6,7 @@
 #    By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/05 09:18:52 by aqueiroz          #+#    #+#              #
-#    Updated: 2023/09/13 18:06:54 by aqueiroz         ###   ########.fr        #
+#    Updated: 2023/09/14 11:15:55 by aqueiroz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,7 +60,9 @@ FILES +=	prompt/print_prompt \
 			prompt/validate_prompt
 			
 FILES += 	parse/expand_exit \
+			parse/replace_variables \
 			parse/expand_var \
+			parse/expand_tilde \
 			parse/quotes \
 			parse/spaces \
 			parse/split_string \
@@ -82,6 +84,7 @@ FILES += 	execute/args \
 			execute/redirects/redirects \
 			execute/redirects/output \
 			execute/redirects/expansions \
+			execute/redirects/create_redirects \
 			execute/env/envs \
 			execute/builtin/cd \
 			execute/builtin/echo \
@@ -102,7 +105,8 @@ FILES_U += 	data \
 			cd2 \
 			heredoc \
 			redirect \
-			tok
+			tok \
+			clear_data
 
 UTILS = $(addprefix $(UTILS_PATH)/, $(addsuffix .c, $(FILES_U)))
 SRCS  = $(addprefix $(SRC_PATH)/, $(addsuffix .c, $(FILES)))

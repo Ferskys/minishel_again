@@ -1,37 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expand_var.c                                       :+:      :+:    :+:   */
+/*   expand_tilde.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/19 00:55:09 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/14 11:16:25 by aqueiroz         ###   ########.fr       */
+/*   Created: 2023/09/14 10:33:02 by aqueiroz          #+#    #+#             */
+/*   Updated: 2023/09/14 10:34:57 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	expand_variables(t_config *data)
+void	expand_tilde(t_config *data)
 {
-	t_tokens	*head;
-	char		*expanded_value;
+	t_tokens	*current;
+	char		*home_dir;
+	char		*new_value;
 
-	head = data->tokens;
-	while (data->tokens)
+	current = data->tokens;
+	home_dir = getenv("HOME");
+	while (current != NULL)
 	{
-		if (*data->tokens->value == '\'')
+		if (current->type == WORDTOKEN && current->value[0] == '~')
 		{
-			data->tokens = data->tokens->next;
-			continue ;
+			if (home_dir == NULL)
+				new_value = ft_strdup(current->value);
+			else
+				new_value = ft_strjoin(home_dir, current->value + 1);
+			free(current->value);
+			current->value = new_value;
 		}
-		expanded_value = replace_variables(data->tokens->value, data->env);
-		if (expanded_value)
-		{
-			free(data->tokens->value);
-			data->tokens->value = expanded_value;
-		}
-		data->tokens = data->tokens->next;
+		current = current->next;
 	}
-	data->tokens = head;
 }

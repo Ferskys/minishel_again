@@ -6,7 +6,7 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 05:03:57 by coder             #+#    #+#             */
-/*   Updated: 2023/09/13 17:01:10 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:52:57 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ void	daddy_issues(int pid)
 	}
 }
 
+static void	exit_heredoc(t_config *data)
+{
+	data->issue_exit = -1;
+	free(data->prompt);
+	free_char_array(data->raw_tokens);
+	free_tokens(data->tokens);
+	clear_env(data);
+	rl_clear_history();
+	close_inherited_fds();
+	exit(0);
+}
+
 char	*heredoc(char *target)
 {
 	t_config	*data;
@@ -67,13 +79,7 @@ char	*heredoc(char *target)
 		write_to_heredoc(ret_fd, target, data);
 		close(ret_fd);
 		data->issue_exit = -1;
-		free(data->prompt);
-		free(data->parse);
-		free_char_array(data->raw_tokens);
-		free_tokens(data->tokens);
-		rl_clear_history();
-		close_inherited_fds();
-		exit (0);
+		exit_heredoc(data);
 	}
 	close(ret_fd);
 	return (ft_strdup(random_name));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 14:44:30 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/10 14:31:43 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:37:35 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,4 +83,28 @@ int	check_for_non_print(char *value)
 		count++;
 	}
 	return (1);
+}
+
+void	delete_empty_nodes(t_tokens **head)
+{
+	t_tokens	*current;
+	t_tokens	*temp;
+
+	current = *head;
+	while (current != NULL)
+	{
+		temp = current;
+		current = current->next;
+		if (temp->value == NULL || temp->value[0] == '\0')
+		{
+			if (temp->prev != NULL)
+				temp->prev->next = temp->next;
+			if (temp->next != NULL)
+				temp->next->prev = temp->prev;
+			if (temp == *head)
+				*head = current;
+			free(temp->value);
+			free(temp);
+		}
+	}
 }

@@ -6,51 +6,11 @@
 /*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/12 18:49:30 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/13 16:41:32 by aqueiroz         ###   ########.fr       */
+/*   Updated: 2023/09/14 10:43:43 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include <stdio.h>
-
-static void	create_redirect_files(t_com *cmd)
-{
-	t_reds	*tmp;
-
-	tmp = cmd->red_out;
-	while (tmp)
-	{
-		open(tmp->target, O_CREAT, 0777);
-		tmp = tmp->next;
-	}
-}
-
-static int	validate_redirects(t_com *cmd)
-{
-	t_reds		*tmp;
-	struct stat	sb;
-	t_config	*data;
-
-	data = get_data();
-	tmp = cmd->red_out;
-	while (tmp)
-	{
-		if (stat(tmp->target, &sb) == -1)
-		{
-			perror(tmp->target);
-			data->exit_code = 1;
-			return (1);
-		}
-		else if (access(tmp->target, W_OK) != 0)
-		{
-			perror(tmp->target);
-			data->exit_code = 1;
-			return (1);
-		}
-		tmp = tmp->next;
-	}
-	return (0);
-}
 
 static int	exec_loop(t_com *cmd, t_config *data, int original_fds[2])
 {
@@ -98,7 +58,7 @@ static void	execute_post_loop(t_config *data, int *original_fds)
 		data->exit_code = data->exit_code >> 8;
 	set_signal();
 	clear_data(data);
-	restore_original_fds(original_fds);
+	(void)original_fds;
 	if (data->issue_exit)
 		data->state = EXIT;
 	if (data->state == EXECUTE)

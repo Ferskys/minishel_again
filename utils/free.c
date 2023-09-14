@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fsuomins <fsuomins@student.42sp.org.br     +#+  +:+       +#+        */
+/*   By: aqueiroz <aqueiroz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/18 08:22:10 by fsuomins          #+#    #+#             */
-/*   Updated: 2023/09/11 01:50:46 by fsuomins         ###   ########.fr       */
+/*   Updated: 2023/09/14 12:56:23 by aqueiroz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	clear_env(t_config *data)
 
 void	*safe_free(void *content)
 {
-	if (content)
+	if (content != NULL && content != 0)
 	{
 		free (content);
 		content = NULL;
